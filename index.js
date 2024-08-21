@@ -25,14 +25,14 @@ const styleConfig = {
   0: {
     preprompt: "masterpiece, best quality, very aesthetic, absurdres",
     negative_prompt: "lowres, (bad), text, error, fewer, extra, missing, worst quality, jpeg artifacts, low quality,censured, watermark, unfinished, displeasing, oldest, early, chromatic aberration, signature, extra digits, artistic error, username, scan, [abstract]",
-    cfg_scale: 7,
+    cfg_scale: ,
     steps: 28
   },
   1: {
-    preprompt: "masterpiece, best quality, very aesthetic, absurdres, cinematic still, emotional, harmonious, vignette, highly detailed, high budget, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy",
-    negative_prompt: "lowres, (bad), text, error, fewer, extra, missing, worst quality, jpeg artifacts, low quality",
-    cfg_scale: 7,
-    steps: 28
+    preprompt: "best quality, detailled",
+    negative_prompt: "bad quality, bad hands",
+    cfg_scale: 1,
+    steps: 25
   },
   2: {
     preprompt: "masterpiece, best quality, very aesthetic, absurdres, cinematic photo, 35mm photograph, film, bokeh, professional, 4k, highly detailed",
@@ -106,7 +106,7 @@ const ratioMap = {
 };
 
 app.get('/generate-image', async (req, res) => {
-  const { prompt, styleIndex = 0, ratio = '1:1', cfgScale, steps } = req.query;
+  const { prompt, styleIndex = 1, ratio = '1:1', cfgScale, steps } = req.query;
 
   if (!prompt) {
     return res.status(400).send('Prompt is required.');
@@ -128,7 +128,7 @@ app.get('/generate-image', async (req, res) => {
     while (!success) {
       try {
         response = await axios.post('https://api.visioncraft.top/image/generate', {
-          model: 'AnimagineXL-3.1',
+          model: 'FluxPony-v1.0',
           prompt: fullPrompt,
           negative_prompt: style.negative_prompt,
           token: currentToken,
